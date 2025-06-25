@@ -1,48 +1,32 @@
 import { Refine } from "@refinedev/core";
-import {
-  RefineRoutes,
-  UnsavedChangesNotifier,
-  DocumentTitleHandler,
-  
-} from "@refinedev/react-router";
-import routerProvider from "@refinedev/react-router";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router";
 import dataProvider from "@refinedev/simple-rest";
+import routerProvider from "@refinedev/react-router";
+import { BrowserRouter, Routes, Route } from "react-router";
 
-import Dashboard from './pages/Dashboard';
-import Clients from './pages/Clients';
-import MainLayout from './layouts/MainLayout';
-
-const API_URL = "https://your-api.com/api";
+import Clients from "./pages/Clients";
 
 const App = () => {
   return (
     <BrowserRouter>
       <Refine
-        dataProvider={dataProvider(API_URL)}
+        dataProvider={dataProvider}
         routerProvider={routerProvider}
         resources={[
           {
             name: "clients",
             list: "/clients",
-            create: "/clients/create",
-            edit: "/clients/edit/:id",
-            show: "/clients/show/:id",
           },
+
         ]}
       >
         <Routes>
-          <Route element={<MainLayout><Outlet /></MainLayout>}>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/clients" element={<Clients />} />
+          <Route path="/" element={<h1>Welcome to the App</h1>} />
+          {/* Define the route for clients */}
+
+          <Route path="clients">
+            <Route index element={<Clients />} />
           </Route>
-
-          {/* Автоматические CRUD роуты */}
-          <RefineRoutes />
         </Routes>
-
-        <UnsavedChangesNotifier />
-        <DocumentTitleHandler />
       </Refine>
     </BrowserRouter>
   );
